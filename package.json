@@ -1,0 +1,22 @@
+{
+  "name": "bakerycodingchallenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-node6": "^11.0.0",
+    "chai": "^4.1.2"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "make-runnable": "^1.3.6",
+    "mocha": "^3.5.0"
+  },
+  "scripts": {
+    "start": "node index.js start",
+    "test": "mocha --compilers js:babel-core/register ./tests/test.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
