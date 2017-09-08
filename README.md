@@ -39,7 +39,7 @@ code. An example input:
 
 A successfully passing test(s) that demonstrates the following output:
 
-10 VS5 $17.98
+10 VS5 $17.98 <br/>
      2 x 5 $8.99
      
 14 MB11 $54.8
