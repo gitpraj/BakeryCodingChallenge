@@ -1,12 +1,13 @@
 import chai from 'chai';
 import {divNrem, start, breakdown, calcTotal, subArrays,
-          moduloWithArr, hasAZero} from '../index.js';
+          moduloWithArr, hasAZero, dispOutput} from '../index.js';
 import readline from 'readline';
 import fs from 'fs';
-// var divNrem = require(./index.js).div
 
 var assert = chai.assert;
 var should = chai.should();
+var expect = require('chai').expect;
+var sinon = require('sinon');
 
 describe('Array', function() {
   it('should start empty', function() {
@@ -50,52 +51,105 @@ describe('breakdown module is the heart of the application.', function() {
   });
 });
 
+describe('Testing dispOutput module', function() {
+
+  beforeEach(function() {
+    this.cStub1 = sinon.stub(console, "info");
+        this.cStub2 = sinon.stub(console, "log");
+        this.cStub3 = sinon.stub(console, "error");
+        this.cStub4 = sinon.stub(console, "trace");
+  });
 
 
-const Mocha = require('mocha');
-var Test = Mocha.Test;
-var Suite = Mocha.Suite;
+  it('dispOutput should produce the expected output', function() {
+    dispOutput(10, [{"qnt":3,"rate":6.99},{"qnt":5,"rate":8.99}], [5,3], "10 VS5");
+    assert.equal(console.log.callCount, 2);
+    expect(console.log.calledWith("10 VS5 $17.98")).to.be.true;
+    expect(console.log.calledWith("     2 x 5 $8.99")).to.be.true;
+    // assert.equal(1,0)
+    //  expect(console.log.calledWith("10 VS5 $17.98")).to.be.true;
+  });
 
-var mocha = new Mocha();
-var suite = Suite.create(mocha.suite, 'My test suite with dynamic test cases');
-
-describe('Test Input File', function () {
-    it('to check if the first word of line is a number', function() {
-        var lineReader = readline.createInterface({
-          input: fs.createReadStream('./input.txt')
-        });.
-
-        lineReader.on('line', function (line) {
-            assert.equal(0, 1)
-
-        });
-        // lineReader.on('line', function (line) {
-        //     suite.addTest(new Test(line, function () {
-        //         assert.equal(4, 5);
-        //         // console.log("bbbbbbbbbbbbbb")
-        //         // return true;
-        //     }));
-        // })
-        //     .on('close', function (line) {
-        //         // console.log("aaaaaaaaaaaa")
-        //         mocha.run();
-        //         // var words = line.split(" ");
-        //         // firstWords.push(words[0]);
-        //     });
-        //     mocha.run();
+  afterEach(function(){
+        this.cStub1.restore();
+        this.cStub2.restore();
+        this.cStub3.restore();
+        this.cStub4.restore();
     });
+
 });
-
-
-// var rewire = require("rewire");
-// var sinon = require("sinon");
-// var myModule = rewire("path/to/module");
 //
-// describe("Test createInterface method of readline", function(err){
-//   it("should be called only once", function() {
-//     var readlineStub = sinon.stub();
-//     myModule.__set__("readline", readlineStub);
-//     myModule.convert(2016);
-//     sinon.assert.calledOnce(spyCreateInterface);
+//
+//
+// describe('Array', function() {
+//   it('should start empty', function() {
+//     var arr = [];
+//     assert.equal(arr.length, 0);
+//   });
+// });
+
+
+
+function privateFunction (time) {
+  if (time < 12) { console.log('Good morning');console.log("prajith") }
+  else if (time >= 12 && time <19) { console.log('Good afternoon'); }
+  else { console.log('Good night!'); }
+}
+
+// describe('privateFunction()', function() {
+//
+//   beforeEach(function() {
+//     this.cStub1 = sinon.stub(console, "info");
+//         this.cStub2 = sinon.stub(console, "log");
+//         this.cStub3 = sinon.stub(console, "error");
+//         this.cStub4 = sinon.stub(console, "trace");
+//   });
+//
+//
+//   it('should log "Good morning" for hours < 12', function() {
+//     privateFunction(5);
+//     // expect( console.log.calledOnce ).to.be.true;
+//     assert.equal(console.log.callCount, 2);
+//     expect( console.log.calledWith('Good morning')).to.be.true;
+//     expect( console.log.calledWith('prajith')).to.be.true;
+//
+//   });
+//
+//   afterEach(function(){
+//         this.cStub1.restore();
+//         this.cStub2.restore();
+//         this.cStub3.restore();
+//         this.cStub4.restore();
+//     });
+//
+//
+//
+// });
+
+
+// const sinon  = require('sinon');
+// const assert = require('assert');
+
+// the function to test
+// function consoleOutput(param) {
+//   var newParam = param * param;
+//   console.log("param");
+//   console.log("two")
+// }
+//
+// describe('console_output()', function() {
+//   it('should log the correct value to console', () => {
+//     // "spy" on `console.log()`
+//     let spy = sinon.spy(console, 'log');
+//
+//     // call the function that needs to be tested
+//     consoleOutput(5);
+//
+//     // assert that it was called with the correct value
+//     assert(spy.calledWith("param"));
+//     assert(spy.calledWith("two"));
+//
+//     // restore the original function
+//     // spy.restore();
 //   });
 // });

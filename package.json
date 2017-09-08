@@ -11,7 +11,9 @@
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
     "make-runnable": "^1.3.6",
-    "mocha": "^3.5.0"
+    "mocha": "^3.5.0",
+    "mocha-sinon": "^2.0.0",
+    "sinon": "^3.2.1"
   },
   "scripts": {
     "start": "node index.js start",

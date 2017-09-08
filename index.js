@@ -163,6 +163,10 @@ function calcTotal (resArr, resPack, packs) {
 function dispOutput(number, arr_pack, arr_pack_qnt, item_input) {
     var output = breakdown(number, arr_pack_qnt);
     //console.log("output ret: ", output)
+    // console.log(number)
+    // console.log(JSON.stringify(arr_pack))
+    // console.log(arr_pack_qnt)
+    // console.log(item_input)
     if (output.succ != 0) {
         var tot_price = calcTotal(output.resArr, output.pack, arr_pack);
         tot_price = Math.round(tot_price * 100) / 100
@@ -170,15 +174,16 @@ function dispOutput(number, arr_pack, arr_pack_qnt, item_input) {
         tot_price = 0;
         output.resArr = [];
     }
-        /* Outout on to the ////console */
-        console.log(item_input + " $" + tot_price);
-        for (var j = 0; j < output.resArr.length; j++) {
-          for (var k = 0; k < arr_pack.length; k++) {
-            if (arr_pack[k].qnt == output.pack[j]) {
-              console.log("     " + output.resArr[j].quot + " x " + output.pack[j] + " $" + arr_pack[k].rate);
-            }
-          }
+    /* Outout on to the ////console */
+    console.log(item_input + " $" + tot_price);
+    for (var j = 0; j < output.resArr.length; j++) {
+      for (var k = 0; k < arr_pack.length; k++) {
+        if (arr_pack[k].qnt == output.pack[j]) {
+          // console.log("     " + output.resArr[j].quot + " x " + output.pack[j] + " $" + arr_pack[k].rate);
+          console.log("     " + output.resArr[j].quot + " x " + output.pack[j] + " $" + arr_pack[k].rate);
         }
+      }
+    }
 }
 
 /* start(): function where the application starts
@@ -249,7 +254,8 @@ module.exports = {
   calcTotal,
   subArrays,
   moduloWithArr,
-  hasAZero
+  hasAZero,
+  dispOutput
 }
 
 /* To run exported functions directly from the command line
