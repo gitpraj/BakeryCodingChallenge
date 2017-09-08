@@ -11,13 +11,13 @@ a pack of 5. The bakery currently sells the following products:
 | Name              | Code           | Packs       |
 | -------------     | -------------- | ----------- |
 | Vegemite Scroll   | VS5            |  3 @ $6.99  | 
-                                        5 @ $8.99  |
+|                   |                |  5 @ $8.99  |
 | Blueberry Muffin  | VS5            |  2 @ $9.95  |
-                                        5 @ $16.95 |
-                                        8 @ $24.95 |
+|                   |                |  5 @ $16.95 |
+|                   |                |  8 @ $24.95 |
 | Croissant         | VS5            |  3 @ $5.95  |
-                                        5 @ $9.95  |
-                                        9 @ @16.99 |   
+|                   |                |  5 @ $9.95  |
+|                   |                |  9 @ @16.99 |   
                                       
 ## Task
 
@@ -28,8 +28,10 @@ To save on shipping space each order should contain the minimal number of packs.
 
 Each order has a series of lines with each line containing the number of items followed by the product
 code. An example input:
-10 VS5
+10 VS5 
+
 14 MB11
+
 13 CF
 
 ## Output
@@ -43,22 +45,6 @@ A successfully passing test(s) that demonstrates the following output:
 13 CF $25.85
 2 x 5 $9.95
 1 x 3 $5.95
-
-## Advice
-
-● Choose whatever language you’re comfortable with but please remember that we’re better
-equipped to assess your skills in JavaScript, Java or Ruby
-● Please adhere to the input/output specified
-    ○ The input can be from a file
-    ○ The output goes to the console
-● Make sure you include tests, we would like to see how you do them
-● We expect the see code which you would be happy to put in production
-    ○ That doesn’t mean you need to use a database
-    ○ That doesn’t mean you need to build a web-app or an API
-    ○ It can be a simple console application
-    ○ You can do everything in memory or use files to store your configuration
-    ○ This covers all aspects of code maintainability, readability and modelling
-● If something is not clear don’t hesitate to ask or just make an assumption and go with it
 
 ## Running the app
 
@@ -81,3 +67,30 @@ $ npm start
 ```
 
 If system does not find any npm package, please install it.
+
+## Tesing the app
+
+```bash
+$ npm test
+
+> bakerycodingchallenge@1.0.0 test F:\PredictiveHire
+> mocha --compilers js:babel-core/register ./tests/test.js
+
+  Array
+    √ should start empty
+
+  divNrem module
+    √ Testing divNrem module: check quotient and remainder
+
+  hasAZero module
+    √ testing hasAZero module checking for rem 0
+
+  breakdown module is the heart of the application.
+    √ testing breakdown module
+
+  Testing dispOutput module
+
+
+  5 passing (128ms)
+
+```
