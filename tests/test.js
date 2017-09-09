@@ -27,8 +27,8 @@ describe('divNrem module', function() {
 describe('hasAZero module', function() {
   it('testing hasAZero module checking for rem 0', function() {
       var ret1 = hasAZero([{rem: 1, quot: 1}, {rem: 2, quot: 3}]);
-      var ret2 = hasAZero([{rem: 1, quot: 1}, {rem: 2, quot: 3}, {rem: 0, quot: 1},
-              {rem: 2, quot: 3}]);
+      var ret2 = hasAZero([{rem: 1, quot: 1}, {rem: 2, quot: 3},
+              {rem: 0, quot: 1}, {rem: 2, quot: 3}]);
       assert.equal(ret1, -1);
       assert.notEqual(ret2, -1);
   });
@@ -51,105 +51,37 @@ describe('breakdown module is the heart of the application.', function() {
   });
 });
 
-describe('Testing dispOutput module', function() {
-
+describe('Testing output on console', function() {
   beforeEach(function() {
-    this.cStub1 = sinon.stub(console, "info");
-        this.cStub2 = sinon.stub(console, "log");
-        this.cStub3 = sinon.stub(console, "error");
-        this.cStub4 = sinon.stub(console, "trace");
-  });
-
-
-  it('dispOutput should produce the expected output', function() {
-    dispOutput(10, [{"qnt":3,"rate":6.99},{"qnt":5,"rate":8.99}], [5,3], "10 VS5");
-    assert.equal(console.log.callCount, 2);
-    expect(console.log.calledWith("10 VS5 $17.98")).to.be.true;
-    expect(console.log.calledWith("     2 x 5 $8.99")).to.be.true;
-    // assert.equal(1,0)
-    //  expect(console.log.calledWith("10 VS5 $17.98")).to.be.true;
+    sinon.spy(console, "log");
   });
 
   afterEach(function(){
-        this.cStub1.restore();
-        this.cStub2.restore();
-        this.cStub3.restore();
-        this.cStub4.restore();
-    });
+    console.log.restore();
+  });
+
+  it('dispOutput should produce the expected output for VS5', function() {
+    dispOutput(10, [{"qnt":3,"rate":6.99},{"qnt":5,"rate":8.99}],
+          [5,3], "10 VS5 10", true);
+    assert.equal(console.log.callCount, 2);
+    expect(console.log.calledWith("10 VS5 $17.98")).to.be.true;
+    expect(console.log.calledWith("     2 x 5 $8.99")).to.be.true;
+  });
+
+  it('dispOutput should produce the expected output for MB11', function() {
+    dispOutput(14, [{"qnt":2,"rate":9.95},{"qnt":5,"rate":16.95}, {"qnt":8,"rate":24.95}],
+          [2,5,8], "14 MB11 10", true);
+    assert.equal(console.log.callCount, 3);
+    expect(console.log.calledWith("14 MB11 $54.8")).to.be.true;
+    expect(console.log.calledWith("     1 x 8 $24.95")).to.be.true;
+    expect(console.log.calledWith("     3 x 2 $9.95")).to.be.true;
+  });
+
+  it('dispOutput display Not a number', function() {
+    dispOutput(14, [{"qnt":2,"rate":9.95},{"qnt":5,"rate":16.95}, {"qnt":8,"rate":24.95}],
+          [2,5,8], "r4 MB11 10", true);
+    assert.equal(console.log.callCount, 1);
+    expect(console.log.calledWith("Item count is not a number.")).to.be.true;
+  });
 
 });
-//
-//
-//
-// describe('Array', function() {
-//   it('should start empty', function() {
-//     var arr = [];
-//     assert.equal(arr.length, 0);
-//   });
-// });
-
-
-
-function privateFunction (time) {
-  if (time < 12) { console.log('Good morning');console.log("prajith") }
-  else if (time >= 12 && time <19) { console.log('Good afternoon'); }
-  else { console.log('Good night!'); }
-}
-
-// describe('privateFunction()', function() {
-//
-//   beforeEach(function() {
-//     this.cStub1 = sinon.stub(console, "info");
-//         this.cStub2 = sinon.stub(console, "log");
-//         this.cStub3 = sinon.stub(console, "error");
-//         this.cStub4 = sinon.stub(console, "trace");
-//   });
-//
-//
-//   it('should log "Good morning" for hours < 12', function() {
-//     privateFunction(5);
-//     // expect( console.log.calledOnce ).to.be.true;
-//     assert.equal(console.log.callCount, 2);
-//     expect( console.log.calledWith('Good morning')).to.be.true;
-//     expect( console.log.calledWith('prajith')).to.be.true;
-//
-//   });
-//
-//   afterEach(function(){
-//         this.cStub1.restore();
-//         this.cStub2.restore();
-//         this.cStub3.restore();
-//         this.cStub4.restore();
-//     });
-//
-//
-//
-// });
-
-
-// const sinon  = require('sinon');
-// const assert = require('assert');
-
-// the function to test
-// function consoleOutput(param) {
-//   var newParam = param * param;
-//   console.log("param");
-//   console.log("two")
-// }
-//
-// describe('console_output()', function() {
-//   it('should log the correct value to console', () => {
-//     // "spy" on `console.log()`
-//     let spy = sinon.spy(console, 'log');
-//
-//     // call the function that needs to be tested
-//     consoleOutput(5);
-//
-//     // assert that it was called with the correct value
-//     assert(spy.calledWith("param"));
-//     assert(spy.calledWith("two"));
-//
-//     // restore the original function
-//     // spy.restore();
-//   });
-// });

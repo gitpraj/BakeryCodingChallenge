@@ -76,7 +76,6 @@ function subArrays(number, arr) {
           }
       }
 
-      //console.log("ret subarrays: " +ret)
       return {
         ret: ret,
         resArr: resArr,
@@ -137,7 +136,8 @@ function moduloWithArr(number, arr, resArr) {
       tempArr.splice(index, 1);
     }
     resArr.push({rem: rem, quot: quot});
-    return ((tempArr.length > 0) && (rem != 0)) ? moduloWithArr(rem, tempArr, resArr) : resArr;
+    return ((tempArr.length > 0) && (rem != 0)) ?
+        moduloWithArr(rem, tempArr, resArr) : resArr;
 }
 
 /* calcTotal(): function to calculate the rates after beakdown.
@@ -160,29 +160,38 @@ function calcTotal (resArr, resPack, packs) {
 
 /* dispOutput(): function where the rates are displayed on the console.
 */
-function dispOutput(number, arr_pack, arr_pack_qnt, item_input) {
-    var output = breakdown(number, arr_pack_qnt);
-    //console.log("output ret: ", output)
-    // console.log(number)
-    // console.log(JSON.stringify(arr_pack))
-    // console.log(arr_pack_qnt)
-    // console.log(item_input)
-    if (output.succ != 0) {
-        var tot_price = calcTotal(output.resArr, output.pack, arr_pack);
-        tot_price = Math.round(tot_price * 100) / 100
-    } else {
-        tot_price = 0;
-        output.resArr = [];
-    }
-    /* Outout on to the ////console */
-    console.log(item_input + " $" + tot_price);
-    for (var j = 0; j < output.resArr.length; j++) {
-      for (var k = 0; k < arr_pack.length; k++) {
-        if (arr_pack[k].qnt == output.pack[j]) {
-          // console.log("     " + output.resArr[j].quot + " x " + output.pack[j] + " $" + arr_pack[k].rate);
-          console.log("     " + output.resArr[j].quot + " x " + output.pack[j] + " $" + arr_pack[k].rate);
-        }
+function dispOutput(number, arr_pack, arr_pack_qnt, item_input, isItemPresent) {
+    if (isItemPresent) {
+      /* Only the first 2 words of string item_input are important. The words after
+        that, is ignored */
+      var firstWords = [];
+      var words = item_input.split(" ");
+      firstWords.push(words[0]);
+      var number = Number(firstWords);
+      if (isNaN(number) == false) {
+          var output = breakdown(number, arr_pack_qnt);
+          if (output.succ != 0) {
+              var tot_price = calcTotal(output.resArr, output.pack, arr_pack);
+              tot_price = Math.round(tot_price * 100) / 100
+          } else {
+              tot_price = 0;
+              output.resArr = [];
+          }
+          /* Outout on to the console */
+          console.log(words[0] + " " + words[1] + " $" + tot_price);
+          for (var j = 0; j < output.resArr.length; j++) {
+            for (var k = 0; k < arr_pack.length; k++) {
+              if (arr_pack[k].qnt == output.pack[j]) {
+                console.log("     " + output.resArr[j].quot +
+                      " x " + output.pack[j] + " $" + arr_pack[k].rate);
+              }
+            }
+          }
+      } else {
+        console.log("Item count is not a number.")
       }
+    } else {
+      console.log("Item not present.")
     }
 }
 
@@ -190,6 +199,7 @@ function dispOutput(number, arr_pack, arr_pack_qnt, item_input) {
 */
 function start() {
   /* Creating packs for Vegemite Scroll */
+  var flag = 1;
   const pack1_vs5 = new pack(3, 6.99);
   const pack2_vs5 = new pack(5, 8.99);
 
@@ -217,32 +227,29 @@ function start() {
   });
 
   lineReader.on('line', function (line) {
-      var firstWords = [];
-      var item;
-      var words = line.split(" ");
-      firstWords.push(words[0]);
-      var number = Number(firstWords);
-      if (isNaN(number) == false) {
+        var item;
+        var words = line.split(" ");
         item = words[1];
         switch(item) {
           case 'MB11':
           case 'mb11':
-              dispOutput(number, arr_pack_mb11, arr_pack_qnt_mb11, line);
+              dispOutput(words[0], arr_pack_mb11, arr_pack_qnt_mb11,
+                    line, true);
               break;
           case 'CF':
           case 'cf':
-              dispOutput(number, arr_pack_cf, arr_pack_qnt_cf, line);
+              dispOutput(words[0], arr_pack_cf, arr_pack_qnt_cf,
+                    line, true);
               break;
           case 'VS5':
           case 'vs5':
-              dispOutput(number, arr_pack_vs5, arr_pack_qnt_vs5, line);
+              dispOutput(words[0], arr_pack_vs5, arr_pack_qnt_vs5,
+                    line, true);
               break;
           default:
+              dispOutput(0, [], [], line, false);
               break;
         }
-      } else {
-        //console.log("Not a number");
-      }
   });
   return "";
 }
