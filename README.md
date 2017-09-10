@@ -53,6 +53,7 @@ A successfully passing test(s) that demonstrates the following output:
 ## Running the app
 
 ```bash
+$ npm install
 $ npm start
 
 > bakerycodingchallenge@1.0.0 start F:\PredictiveHire
