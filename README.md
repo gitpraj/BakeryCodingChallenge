@@ -93,9 +93,19 @@ $ npm test
   breakdown module is the heart of the application.
     √ testing breakdown module
 
-  Testing dispOutput module
+  Testing output on console
+10 VS5 $17.98
+     2 x 5 $8.99
+    √ dispOutput should produce the expected output for VS5
+14 MB11 $54.8
+     1 x 8 $24.95
+     3 x 2 $9.95
+    √ dispOutput should produce the expected output for MB11
+Item count is not a number.
+    √ dispOutput display Not a number
+    √ dispOutput display nothing if the input line is empty
 
 
-  5 passing (128ms)
+  8 passing (80ms)
 
 ```
