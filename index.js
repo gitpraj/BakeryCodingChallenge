@@ -15,7 +15,10 @@ var pack = class pack {
 
 /* breakdown(): function where the actual breakdown of items happen according
     to the input. This is in a way where the item count should be as small as
-    possible.
+    possible. The array is being sent to subArrays module and if the breakdown
+    is not successful, first element is deleted and the rest of the array is
+    being sent to subArrays module. The process is repeated unless we find
+    the combination of packs.
     arguments:
         number: actual input
         arr: array consists of different packs cnt for a product
@@ -46,7 +49,8 @@ function breakdown(number, arr) {
 }
 
 /* subArrays(): function where the array is being parsed element by element,
-    forming sub arrays and then redo the process for breakdown.
+    forming sub arrays with the first element and then doing the process for
+    breakdown i.e. moduloWithArr module.
     arguments:
         number: actual input
         arr: array consists of different packs cnt for a product
@@ -65,9 +69,7 @@ function subArrays(number, arr) {
           // jump to the next element and call moduloWithArr again.
           var splicedArr = temp_arr.slice(ptr,end + 1);
           var newArr = first.concat(splicedArr);
-          //console.log("new Arr: " + newArr)
           resArr = moduloWithArr(number, newArr, []);
-          //console.log("resArr: " + JSON.stringify(resArr))
           ret = hasAZero(resArr);
           if (ret >= 0) {
             break;
@@ -104,7 +106,7 @@ function hasAZero(array) {
     }
 }
 
-/* divNrem(): function to divide and return the quotient and remainder
+/* divNrem(): function to divide numbers and return the quotient and remainder
 */
 let divNrem = function(dividend, divisor) {
   var quot = Math.floor(dividend / divisor);
@@ -115,8 +117,8 @@ let divNrem = function(dividend, divisor) {
 }
 
 /* moduloWithArr(): function where the input is first being divided by the
-    maximum number in the array and then the remainder is divided by the next
-    number and goes until the end of the array.
+    maximum number in the array and then the remainder of that is divided by
+    the next number and goes until the end of the array.
     arguments:
         number: actual input
         arr: array consists of different packs for a product
@@ -141,6 +143,11 @@ function moduloWithArr(number, arr, resArr) {
 }
 
 /* calcTotal(): function to calculate the rates after beakdown.
+    arguments:
+        resArr: Array consists of remainder and quotient of divisions which
+                are succesful according to the number of packs for that item.
+        resPack: Array consists of the packs that are chose.
+        packs: Array of all the pack objects
 */
 function calcTotal (resArr, resPack, packs) {
   var tot_price = 0;
@@ -148,9 +155,7 @@ function calcTotal (resArr, resPack, packs) {
       for (var k = 0; k < packs.length; k++) {
         if (packs[k].qnt == resPack[j]) {
           var count = resArr[j].quot;
-          ////console.log("count: " + count)
           var price = count * packs[k].rate;
-          ////console.log("price: " + price)
           tot_price += price;
         }
       }
@@ -159,11 +164,18 @@ function calcTotal (resArr, resPack, packs) {
 }
 
 /* dispOutput(): function where the rates are displayed on the console.
+    arguments:
+        number: The input number of packs for that particular item
+        arr_pack:  Array of all the pack objects
+        arr_pack_qnt: Array of all pack counts
+        item_input: input string given for item in input.txt file
+        isItemPresent: Flag which determines if the item is actually present
+                       in the bakery.
 */
 function dispOutput(number, arr_pack, arr_pack_qnt, item_input, isItemPresent) {
     if (isItemPresent) {
-      /* Only the first 2 words of string item_input are important. The words after
-        that, is ignored */
+      /* Only the first 2 words of string item_input are important.
+        The words after that, is ignored */
       var firstWords = [];
       var words = item_input.split(" ");
       firstWords.push(words[0]);
@@ -191,7 +203,12 @@ function dispOutput(number, arr_pack, arr_pack_qnt, item_input, isItemPresent) {
         console.log("Item count is not a number.")
       }
     } else {
-      console.log("Item not present.")
+      if (item_input == "") {
+        // Do nothing if input line is empty
+      } else {
+        // In case the item code is not present in the bakery
+        console.log("Item not present.")
+      }
     }
 }
 
@@ -199,7 +216,6 @@ function dispOutput(number, arr_pack, arr_pack_qnt, item_input, isItemPresent) {
 */
 function start() {
   /* Creating packs for Vegemite Scroll */
-  var flag = 1;
   const pack1_vs5 = new pack(3, 6.99);
   const pack2_vs5 = new pack(5, 8.99);
 

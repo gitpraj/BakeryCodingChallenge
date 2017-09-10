@@ -84,4 +84,11 @@ describe('Testing output on console', function() {
     expect(console.log.calledWith("Item count is not a number.")).to.be.true;
   });
 
+  it('dispOutput display nothing if the input line is empty', function() {
+    dispOutput(14, [{"qnt":2,"rate":9.95},{"qnt":5,"rate":16.95}, {"qnt":8,"rate":24.95}],
+          [2,5,8], "", false);
+    assert.equal(console.log.callCount, 0);
+    expect(console.log.calledWith("Item count is not a number.")).to.be.false;
+  });
+
 });
